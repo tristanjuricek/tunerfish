@@ -7,6 +7,7 @@ package com.tristanjuricek.tunerfish;
 import be.hogent.tarsos.dsp.AudioEvent;
 import be.hogent.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.hogent.tarsos.dsp.pitch.PitchDetectionResult;
+import com.tristanjuricek.tunerfish.swing.JPitchSlider;
 import net.miginfocom.layout.AC;
 import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
@@ -23,10 +24,11 @@ public class TunerfishForm extends JFrame implements PitchDetectionHandler {
 
     private AudioDispatcherManager audioDispatcherManager;
     private MixerListAdaptor mixerListAdaptor;
+    private JPitchSlider pitchSlider;
     private JLabel audioSourceLabel;
     private JComboBox audioSourceComboBox;
 
-    private JLabel tmpLabel;
+    private Color bColor;
 
     public TunerfishForm(MixerListAdaptor mixerListAdaptor,
                          AudioDispatcherManager audioDispatcherManager) {
@@ -37,30 +39,33 @@ public class TunerfishForm extends JFrame implements PitchDetectionHandler {
         this.audioDispatcherManager.addPitchDetectionHandler(this);
         this.mixerListAdaptor.addSelectionChangedListener(this.audioDispatcherManager);
 
+        this.bColor = new Color(105, 122, 133);
+
         initComponents();
     }
 
     private void initComponents() {
         ResourceBundle bundle = ResourceBundle.getBundle("com.tristanjuricek.tunerfish.TunerfishForm");
+        pitchSlider = new JPitchSlider();
         audioSourceLabel = new JLabel();
         audioSourceComboBox = new JComboBox();
 
-        tmpLabel = new JLabel();
-        tmpLabel.setText("C1");
+        pitchSlider.setPitchModel(this.audioDispatcherManager);
 
-        setBackground(new Color(255, 255, 0));
+        setBackground(this.bColor);
         Container contentPane = getContentPane();
 
         audioSourceLabel.setText(bundle.getString("TunerfishForm.audioSourceLabel.text"));
 
-        MigLayout layout = new MigLayout(new LC().insetsAll("20"), new AC().grow());
+        MigLayout layout = new MigLayout(new LC().insetsAll("0"), new AC().grow());
+
         contentPane.setLayout(layout);
 
+        add(pitchSlider, new CC().wrap());
         add(audioSourceLabel, new CC().wrap());
         add(audioSourceComboBox, new CC().growX(100f).wrap());
-        add(tmpLabel, new CC().alignX("center"));
 
-        contentPane.setBackground(new Color(255, 255, 0));
+        contentPane.setBackground(this.bColor);
         pack();
         setLocationRelativeTo(getOwner());
 
@@ -69,7 +74,5 @@ public class TunerfishForm extends JFrame implements PitchDetectionHandler {
 
     @Override
     public void handlePitch(PitchDetectionResult pitchDetectionResult, AudioEvent audioEvent) {
-        // TODO, we'll eventualy want to convert this
-        tmpLabel.setText(Float.toString(pitchDetectionResult.getPitch()));
     }
 }

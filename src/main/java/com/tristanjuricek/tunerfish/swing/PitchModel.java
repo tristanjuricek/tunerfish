@@ -11,5 +11,11 @@ public interface PitchModel {
 
     float getPitch();
 
+    String getPitchName();
+
+    int getPitchOctave();
+
+    int getCents();
+
     void removeChangeListener(ChangeListener changeListener);
 }
