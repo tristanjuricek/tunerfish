@@ -8,6 +8,7 @@ import be.hogent.tarsos.dsp.AudioEvent;
 import be.hogent.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.hogent.tarsos.dsp.pitch.PitchDetectionResult;
 import com.tristanjuricek.tunerfish.swing.JPitchSlider;
+import com.tristanjuricek.tunerfish.swing.MixerComboBoxUI;
 import net.miginfocom.layout.AC;
 import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
@@ -25,7 +26,6 @@ public class TunerfishForm extends JFrame implements PitchDetectionHandler {
     private AudioDispatcherManager audioDispatcherManager;
     private MixerListAdaptor mixerListAdaptor;
     private JPitchSlider pitchSlider;
-    private JLabel audioSourceLabel;
     private JComboBox audioSourceComboBox;
 
     private Color bColor;
@@ -39,30 +39,32 @@ public class TunerfishForm extends JFrame implements PitchDetectionHandler {
         this.audioDispatcherManager.addPitchDetectionHandler(this);
         this.mixerListAdaptor.addSelectionChangedListener(this.audioDispatcherManager);
 
-        this.bColor = new Color(105, 122, 133);
+        this.bColor = new Color(30, 30, 30);
+        this.setBackground(this.bColor);
 
         initComponents();
+
+        setResizable(false);
     }
 
     private void initComponents() {
         ResourceBundle bundle = ResourceBundle.getBundle("com.tristanjuricek.tunerfish.TunerfishForm");
         pitchSlider = new JPitchSlider();
-        audioSourceLabel = new JLabel();
         audioSourceComboBox = new JComboBox();
+
+        // We use a completely custom UI
+        audioSourceComboBox.setUI(new MixerComboBoxUI());
 
         pitchSlider.setPitchModel(this.audioDispatcherManager);
 
         setBackground(this.bColor);
         Container contentPane = getContentPane();
 
-        audioSourceLabel.setText(bundle.getString("TunerfishForm.audioSourceLabel.text"));
-
         MigLayout layout = new MigLayout(new LC().insetsAll("0"), new AC().grow());
 
         contentPane.setLayout(layout);
 
         add(pitchSlider, new CC().wrap());
-        add(audioSourceLabel, new CC().wrap());
         add(audioSourceComboBox, new CC().growX(100f).wrap());
 
         contentPane.setBackground(this.bColor);

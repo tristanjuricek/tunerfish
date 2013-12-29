@@ -15,7 +15,7 @@ public interface PitchModel {
 
     int getPitchOctave();
 
-    int getCents();
+    float getDistanceToPitch();
 
     void removeChangeListener(ChangeListener changeListener);
 }

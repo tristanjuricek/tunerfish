@@ -38,8 +38,8 @@ public class DefaultPitchModel implements PitchModel {
     }
 
     @Override
-    public int getCents() {
-        return 0;
+    public float getDistanceToPitch() {
+        return PitchUtils.getDistanceToPitch(pitch);
     }
 
     @Override

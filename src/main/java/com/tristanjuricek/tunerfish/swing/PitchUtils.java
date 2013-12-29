@@ -16,6 +16,19 @@ public class PitchUtils {
         return (int)( 69 + 12 * x_2 );
     }
 
+    public static float getDistanceToPitch(float pitch) {
+        int num = getPitchNumber(pitch);
+        float absFreq = getFrequency(num);
+        return (pitch - absFreq) / pitch;
+    }
+
+    public static float getFrequency(int pitchNum) {
+        int x_1 = pitchNum - 69; // A4 = 69
+        double x_2 = x_1 / 12;
+        double x_3 = Math.pow(2.0d, x_2);
+        return (float)(x_3 * 440f);
+    }
+
     public static int getPitchOctave(float pitch) {
         return (getPitchNumber(pitch) - 12) / 12;
     }
