@@ -1,7 +1,5 @@
 package com.tristanjuricek.tunerfish.swing;
 
-import com.sun.javafx.binding.StringFormatter;
-
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import java.awt.*;

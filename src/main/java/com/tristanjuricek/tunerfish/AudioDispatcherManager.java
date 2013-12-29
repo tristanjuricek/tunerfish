@@ -2,9 +2,7 @@ package com.tristanjuricek.tunerfish;
 
 import be.hogent.tarsos.dsp.AudioDispatcher;
 import be.hogent.tarsos.dsp.AudioEvent;
-import be.hogent.tarsos.dsp.pitch.PitchDetectionHandler;
-import be.hogent.tarsos.dsp.pitch.PitchDetectionResult;
-import be.hogent.tarsos.dsp.pitch.PitchProcessor;
+import be.hogent.tarsos.dsp.pitch.*;
 import com.tristanjuricek.tunerfish.swing.PitchModel;
 import com.tristanjuricek.tunerfish.swing.PitchUtils;
 
@@ -85,26 +83,25 @@ public class AudioDispatcherManager implements
         TargetDataLine line;
         try {
             line = (TargetDataLine) mixer.getLine(dataLineInfo);
-            final int numberOfSamples = bufferSize;
-            line.open(format, numberOfSamples);
-        } catch (LineUnavailableException e) {
-            throw new IllegalStateException(e);
-        }
-        line.start();
-        final AudioInputStream stream = new AudioInputStream(line);
+	    final int numberOfSamples = bufferSize;
+	    line.open(format, numberOfSamples);
+	} catch (LineUnavailableException e) {
+	    throw new IllegalStateException(e);
+	}
+	line.start();
+	final AudioInputStream stream = new AudioInputStream(line);
 
-        // create a new dispatcher
-        try {
-            audioDispatcher = new AudioDispatcher(stream, bufferSize,
-                    overlap);
-        } catch (UnsupportedAudioFileException e) {
-            throw new IllegalStateException(e);
+	// create a new dispatcher
+	try {
+	    audioDispatcher = new AudioDispatcher(stream, bufferSize,
+		    overlap);
+	} catch (UnsupportedAudioFileException e) {
+	    throw new IllegalStateException(e);
         }
 
         // add a processor
-        PitchProcessor pitchProcessor = new PitchProcessor(
-                PitchProcessor.PitchEstimationAlgorithm.YIN, sampleRate,
-                bufferSize, this);
+        PitchProcessor pitchProcessor = new PitchProcessor(PitchProcessor
+		.PitchEstimationAlgorithm.MPM, sampleRate, bufferSize, this);
 
         audioDispatcher.addAudioProcessor(pitchProcessor);
 

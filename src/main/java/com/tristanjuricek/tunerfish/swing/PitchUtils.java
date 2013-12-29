@@ -1,7 +1,6 @@
 package com.tristanjuricek.tunerfish.swing;
 
 /**
- * Created by tristan on 12/27/13.
  */
 public class PitchUtils {
 
@@ -9,7 +8,7 @@ public class PitchUtils {
 
     public static int getPitchNumber(float pitch) {
         if (pitch == Float.MIN_VALUE) {
-            return -10;
+            return -100;
         }
         double x_1 = pitch / A;
         double x_2 = Math.log(x_1) / Math.log(2);
