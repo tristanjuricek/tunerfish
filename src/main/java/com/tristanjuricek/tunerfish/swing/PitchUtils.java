@@ -12,13 +12,14 @@ public class PitchUtils {
         }
         double x_1 = pitch / A;
         double x_2 = Math.log(x_1) / Math.log(2);
-        return (int)( 69 + 12 * x_2 );
+        return (int)Math.round( 69d + 12d * x_2 );
     }
 
     public static float getDistanceToPitch(float pitch) {
         int num = getPitchNumber(pitch);
-        float absFreq = getFrequency(num);
-        return (pitch - absFreq) / pitch;
+        float localF = getFrequency(num);
+        int cents = (int)(1200d * (Math.log(pitch/localF) / Math.log(2)));
+        return cents;
     }
 
     public static float getFrequency(int pitchNum) {

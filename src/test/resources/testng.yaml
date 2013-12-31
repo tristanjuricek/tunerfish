@@ -1,0 +1,7 @@
+name: TunerfishSuite
+threadCount: 1
+
+tests:
+  - name: Unit
+    packages:
+      - com.tristanjuricek.tunerfish.swing
