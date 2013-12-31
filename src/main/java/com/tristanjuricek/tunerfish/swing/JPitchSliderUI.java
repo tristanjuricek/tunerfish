@@ -29,11 +29,8 @@ public class JPitchSliderUI extends ComponentUI {
     private Font pitchFont;
     private Font pitchSubFont;
 
-    private Color centsReg1BC;
     private Color centsReg2BC;
     private Color centsReg3BC;
-    private Color centsReg4BC;
-    private Color centsReg5BC;
     private Color centsFC1;
     private Color centsFC2;
     private Color centsHighFC;
@@ -49,11 +46,8 @@ public class JPitchSliderUI extends ComponentUI {
         this.pitchFont = new Font("Helvetica Neue", Font.PLAIN, 100);
         this.pitchSubFont = new Font("Helvetica Neue", Font.PLAIN, 20);
 
-        centsReg1BC = new Color(0, 0, 0);
         centsReg2BC = new Color(27, 27, 27);
         centsReg3BC = new Color(50, 53, 55);
-        centsReg4BC = new Color(75, 75, 75);
-        centsReg5BC = new Color(101, 101, 101);
         centsFC1 = new Color(0, 0, 0);
         centsFC2 = new Color(166, 166, 166);
         centsHighFC = new Color(245, 30, 30);
@@ -102,48 +96,30 @@ public class JPitchSliderUI extends ComponentUI {
     }
 
     public void paintCentsBackground(Graphics g, JComponent c) {
-        int r1_w = (int)(c.getWidth() * .3);
-        int r2_w = (int)(c.getWidth() * .25);
-        int r3_w = (int)(c.getWidth() * .2); // .75
-        int r4_w = (int)(c.getWidth() * .15); // .90
-        int r5_w = (int)(c.getWidth() * .10);
+	Graphics2D g2 = (Graphics2D)g;
 
-        g.setColor(this.centsReg1BC);
-        int x = 0;
-        int y = getPitchHeight();
-        g.fillRect(0, y, r1_w / 2, getCentsHeight());
+	int x = c.getWidth() / 2;
+	int y1 = getPitchHeight();
+	int y2 = c.getHeight();
+	GradientPaint paint = new GradientPaint(x, y1, centsReg2BC, x, y2, centsReg3BC);
+	g2.setPaint(paint);
+	g2.fillRect(0, y1, c.getWidth(), getCentsHeight());
+    }
 
-        g.setColor(this.centsReg2BC);
-        x = r1_w / 2;
-        g.fillRect(x, y, r2_w / 2, getCentsHeight());
+    /**
+     * Convert cent value to an x coordinate.
+     *
+     * @param cent The cent, should be from -50 to 50
+     * @return The x position. If cent is 0, x is half the width of the component.
+     */
+    private int xOfCent(JComponent c, int cent) {
+	int halfW = c.getWidth() / 2;
 
-        g.setColor(this.centsReg3BC);
-        x += r2_w / 2;
-        g.fillRect(x, y, r3_w / 2, getCentsHeight());
+	double norm = cent / 50d; // The value between -1, 1
 
-        g.setColor(this.centsReg4BC);
-        x += r3_w / 2;
-        g.fillRect(x, y, r4_w / 2, getCentsHeight());
+	int dist = (int)(norm * halfW); // The distance from the middle, range is [-.5w, .5w]
 
-        g.setColor(this.centsReg5BC);
-        x += r4_w / 2;
-        g.fillRect(x, y, r5_w, getCentsHeight());
-
-        g.setColor(this.centsReg4BC);
-        x += r5_w;
-        g.fillRect(x, y, r4_w / 2, getCentsHeight());
-
-        g.setColor(this.centsReg3BC);
-        x += r4_w / 2;
-        g.fillRect(x, y, r3_w / 2, getCentsHeight());
-
-        g.setColor(this.centsReg2BC);
-        x += r3_w / 2;
-        g.fillRect(x, y, r2_w / 2, getCentsHeight());
-
-        g.setColor(this.centsReg1BC);
-        x += r2_w / 2;
-        g.fillRect(x, y, r1_w / 2, getCentsHeight());
+	return halfW + dist;
     }
 
     private void paintCentsMarkers(Graphics g, JComponent c) {
@@ -151,44 +127,37 @@ public class JPitchSliderUI extends ComponentUI {
 
         g2.setFont(this.centsFont);
 
-        int r1_w = (int)((c.getWidth() * .3) / 2);
-        int r2_w = (int)((c.getWidth() * .25) / 2);
-        int r3_w = (int)((c.getWidth() * .2) / 2);
-        int r4_w = (int)((c.getWidth() * .15) / 2);
-        int r5_w = (int)((c.getWidth() * .10) / 2);
-
         g2.setColor(this.centsFC2);
 
-        int x = r1_w / 2 - 12;
+	int x = xOfCent(c, -45);
         int y = getPitchHeight() + 38;
-        g2.drawString("-20", x, y);
+        g2.drawString("-45", x, y);
 
-        x = r1_w + (r2_w / 2 - 12);
-        g2.drawString("-10", x, y);
+	x = xOfCent(c, -30);
+        g2.drawString("-30", x, y);
 
-        x = (r1_w + r2_w) + (r3_w / 2 - 8);
-        g2.drawString("-5", x, y);
+	x = xOfCent(c, -15);
+        g2.drawString("-15", x, y);
 
         g2.setColor(this.centsFC1);
-        x = (r1_w + r2_w + r3_w) + (r4_w / 2 - 6);
-        g2.drawString("-3", x, y);
+	x = xOfCent(c, -5);
+        g2.drawString("-5", x, y);
 
-        int h = r1_w + r2_w + r3_w + r4_w + r5_w;
-        x = h - 2;
+	x = xOfCent(c, 0);
         g2.drawString("0", x, y);
 
-        x = h + (r4_w / 2) + 18;
-        g2.drawString("3", x, y);
-
-        g2.setColor(this.centsFC2);
-        x = h + (r4_w) + (r3_w / 2) + 18;
+	x = xOfCent(c, 5);
         g2.drawString("5", x, y);
 
-        x = h + (r4_w + r3_w) + (r2_w / 2) + 12;
-        g2.drawString("10", x, y);
+        g2.setColor(this.centsFC2);
+	x = xOfCent(c, 15);
+        g2.drawString("15", x, y);
 
-        x = h + (r4_w + r3_w + r2_w) + (r1_w / 2) + 10;
-        g2.drawString("20", x, y);
+	x = xOfCent(c, 30);
+        g2.drawString("30", x, y);
+
+	x = xOfCent(c, 45);
+        g2.drawString("45", x, y);
     }
 
     public void paintCentsHighlight(Graphics g, JComponent c) {
@@ -197,11 +166,11 @@ public class JPitchSliderUI extends ComponentUI {
 
         PitchModel pitchModel = pitchSlider.getPitchModel();
 
-        float d = pitchModel.getDistanceToPitch();
+        float cents = pitchModel.getDistanceToPitch();
 
         int width = 10;
         int height = getCentsHeight();
-        int x = (int)((c.getWidth() / 2) + (c.getWidth() * d)) - (width / 2);
+	int x = xOfCent(c, (int)cents);
 
         g2.setColor(this.centsHighFC);
         g2.fillRect(x, getPitchHeight(), width, height);
