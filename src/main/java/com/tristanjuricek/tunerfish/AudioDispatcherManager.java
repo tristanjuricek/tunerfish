@@ -73,8 +73,8 @@ public class AudioDispatcherManager implements
         Mixer mixer = AudioSystem.getMixer(info);
 
         float sampleRate = 44100;
-        int bufferSize = 1024;
-        int overlap = 0;
+        int bufferSize = 1024 * 5;
+        int overlap = 1024 * 2;
 
         final AudioFormat format = new AudioFormat(sampleRate, 16, 1, true,
                 true);
