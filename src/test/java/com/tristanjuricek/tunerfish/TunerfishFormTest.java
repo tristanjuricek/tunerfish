@@ -13,12 +13,15 @@ import static org.testng.Assert.assertEquals;
  */
 public class TunerfishFormTest extends FestSwingTestngTestCase {
 
-    final AudioDispatcherManager audioDispatcherManager = new AudioDispatcherManager();
-    final MixerListAdaptor mixerListAdaptor = new MixerListAdaptor();
+    AudioDispatcherManager audioDispatcherManager;
+    MixerListAdaptor mixerListAdaptor;
     TunerfishForm tunerfishForm;
     private FrameFixture window;
 
     protected void onSetUp() {
+        audioDispatcherManager = new AudioDispatcherManager();
+        mixerListAdaptor = new MixerListAdaptor();
+
         tunerfishForm = GuiActionRunner.execute(new GuiQuery<TunerfishForm>() {
             protected TunerfishForm executeInEDT() {
                 return new TunerfishForm(mixerListAdaptor, audioDispatcherManager);
