@@ -12,7 +12,6 @@ dependencies {
     compile files("./lib/TarsosDSP-1.7.jar")
     compile 'org.codehaus.groovy:groovy-all:2.2.1'
     compile 'com.miglayout:miglayout-swing:4.2'
-    testCompile 'org.testng:testng:6.8.7'
     testCompile 'org.easytesting:fest-swing-testng:1.2.1'
 }
 
