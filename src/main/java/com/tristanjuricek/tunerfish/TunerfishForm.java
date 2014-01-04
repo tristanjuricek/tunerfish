@@ -51,6 +51,7 @@ public class TunerfishForm extends JFrame implements PitchDetectionHandler {
         ResourceBundle bundle = ResourceBundle.getBundle("com.tristanjuricek.tunerfish.TunerfishForm");
         pitchSlider = new JPitchSlider();
         audioSourceComboBox = new JComboBox();
+        audioSourceComboBox.setName("audioSourceComboBox");
 
         // We use a completely custom UI
         audioSourceComboBox.setUI(new MixerComboBoxUI());
@@ -76,5 +77,9 @@ public class TunerfishForm extends JFrame implements PitchDetectionHandler {
 
     @Override
     public void handlePitch(PitchDetectionResult pitchDetectionResult, AudioEvent audioEvent) {
+    }
+
+    public String getSelectedMixerName() {
+        return (String)audioSourceComboBox.getSelectedItem();
     }
 }

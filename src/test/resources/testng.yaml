@@ -4,4 +4,5 @@ threadCount: 1
 tests:
   - name: Unit
     packages:
+      - com.tristanjuricek.tunerfish
       - com.tristanjuricek.tunerfish.swing
