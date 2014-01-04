@@ -21,3 +21,4 @@ selector.
 This actually doesn't work on my typical Duet interface with the bass on only
 one of the audio tracks. I'll need to investigate this.
 
+Can we test audiosystem settings in the CI system?
