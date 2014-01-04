@@ -9,8 +9,6 @@ I'd rather hold off on any further description.
 To Do
 =====
 
-Can I get some kind of CI system running.
-
 Refine the pitch display; the sharp cymbol looks kind of funny. We should probably consider
 centering the text properly. Use FontMetrics to calculate the width of strings, and get those
 strings into a resources file.

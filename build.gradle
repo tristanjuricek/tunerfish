@@ -24,5 +24,7 @@ jar {
 }
 
 test {
-    useTestNG()
+    useTestNG {
+        excludeGroups("swing")
+    }
 }

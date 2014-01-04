@@ -30,7 +30,7 @@ public class TunerfishFormTest extends FestSwingTestngTestCase {
         window.show(); // shows the frame to test
     }
 
-    @Test
+    @Test(groups = "swing")
     public void changeAudioSelection() {
         String mixerName = "Built-in Input";
         window.comboBox("audioSourceComboBox").selectItem(mixerName);
