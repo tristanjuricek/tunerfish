@@ -44,6 +44,7 @@ public class JPitchSliderUI extends ComponentUI {
         this.pitchForegroundColor = new Color(230, 230, 230);
 
         this.pitchFont = new Font("Helvetica Neue", Font.PLAIN, 100);
+
         this.pitchSubFont = new Font("Helvetica Neue", Font.PLAIN, 20);
 
         centsReg2BC = new Color(27, 27, 27);
@@ -53,6 +54,7 @@ public class JPitchSliderUI extends ComponentUI {
         centsHighFC = new Color(245, 30, 30);
 
         this.centsFont = new Font("Helvetica Neue", Font.PLAIN, 12);
+
     }
 
     @Override
@@ -67,6 +69,8 @@ public class JPitchSliderUI extends ComponentUI {
         JPitchSlider slider = (JPitchSlider)c;
         PitchModel pitchModel = slider.getPitchModel();
 
+        ResourceBundle bundle = ResourceBundle.getBundle("com.tristanjuricek.tunerfish.swing.JPitchSliderUI");
+
         g.setColor(this.pitchBackgroundColor);
         g.fillRect(0, 0, c.getWidth(), getPitchHeight());
 
@@ -75,18 +79,31 @@ public class JPitchSliderUI extends ComponentUI {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
 
-        int x = (c.getWidth() / 2) - 40;
         int y = 90;
         g2.setColor(this.pitchForegroundColor);
         g2.setFont(this.pitchFont);
-        g2.drawString(pitchModel.getPitchName(), x, y);
 
-        g2.setFont(this.pitchSubFont);
-        x = (c.getWidth() / 2) - 40;
-        y = 120;
-        ResourceBundle bundle = ResourceBundle.getBundle("com.tristanjuricek.tunerfish.swing.JPitchSliderUI");
-        String fmt = String.format(bundle.getString("JPitchSliderUI.freqFormat"), pitchModel.getPitchOctave(), pitchModel.getPitch());
-        g2.drawString(fmt, x, y);
+        String pitch = pitchModel.getPitchName();
+
+        if (!pitch.isEmpty()) {
+            String key = "JPitchSliderUI." + pitch;
+            String value = bundle.getString(key);
+
+            FontMetrics metrics = g2.getFontMetrics(this.pitchFont);
+            int w = metrics.stringWidth(value);
+            int x = (c.getWidth() / 2) - (w / 2);
+
+            g2.drawString(value, x, y);
+
+            g2.setFont(this.pitchSubFont);
+            y = 120;
+            String fmt = String.format(bundle.getString("JPitchSliderUI.freqFormat"),
+                    pitchModel.getPitchOctave(), pitchModel.getPitch());
+            metrics = g2.getFontMetrics(this.pitchSubFont);
+            w = metrics.stringWidth(fmt);
+            x = (c.getWidth() / 2) - (w / 2);
+            g2.drawString(fmt, x, y);
+        }
     }
 
     public void paintCents(Graphics g, JComponent c) {
